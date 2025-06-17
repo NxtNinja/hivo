@@ -17,7 +17,7 @@ export default function HomePage() {
       await account.deleteSession("current");
       toast.success("Logged out successfully");
       router.push("/login"); // redirect to login page
-    } catch (error: any) {
+    } catch (error) {
       const err = error as AppwriteException;
       console.error("Logout failed:", err.message);
       toast.error(`Logout failed: ${err.message}`);
