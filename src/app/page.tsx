@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { account } from "@/lib/appwrite";
+import { AppwriteException } from "appwrite";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -17,7 +18,9 @@ export default function HomePage() {
       toast.success("Logged out successfully");
       router.push("/login"); // redirect to login page
     } catch (error: any) {
-      console.error("Logout failed:", error.message);
+      const err = error as AppwriteException;
+      console.error("Logout failed:", err.message);
+      toast.error(`Logout failed: ${err.message}`);
     } finally {
       setLoading(false);
     }

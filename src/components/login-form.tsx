@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { account } from "@/lib/appwrite";
-import { OAuthProvider } from "appwrite";
+import { AppwriteException, OAuthProvider } from "appwrite";
 import { useForm } from "react-hook-form";
 import { LoginFormData, loginSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,8 +45,9 @@ export function LoginForm({
       await account.createEmailPasswordSession(data.email, data.password);
       toast.success("Login successful!");
       // redirect or refresh user session
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error) {
+      const err = error as AppwriteException;
+      toast.error(err.message);
     } finally {
       setLoading(false);
     }
